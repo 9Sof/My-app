@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 import classes from "./EventItem.module.css";
+import Button from "../ui/button";
 
 const EventItem = ({ title, image, date, location, id }) => {
   const eventDate = new Date(date).toLocaleDateString("en-US", {
@@ -26,7 +27,9 @@ const EventItem = ({ title, image, date, location, id }) => {
           </div>
         </div>
         <div className={classes.actions}>
-          <Link href={`/events/${id}`}>Explore Event</Link>
+          <Button link={`/events/${id}`}>
+              Explort Event
+          </Button>
         </div>
       </div>
     </li>
