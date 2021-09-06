@@ -1,11 +1,22 @@
-import React from 'react'
+import { useRouter } from "next/dist/client/router";
+import React, { Fragment } from "react";
+import EventList from "../../components/events/EventList";
+import EventSearch from "../../components/events/EventSearch";
+import { getAllEvents } from "../../dummy-data";
 
 const AllEventsPage = () => {
-    return (
-        <div>
-            <h1>All Events</h1>
-        </div>
-    )
-}
+  const events = getAllEvents();
+  const router = useRouter();
 
-export default AllEventsPage
+  const onSearch = (year, month) => {
+    router.push(`/events/${year}/${month}`)
+  };
+  return (
+    <Fragment>
+      <EventSearch onSearch={onSearch} />
+      <EventList items={events} />
+    </Fragment>
+  );
+};
+
+export default AllEventsPage;
