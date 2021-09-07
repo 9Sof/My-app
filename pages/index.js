@@ -1,12 +1,12 @@
 import React from "react";
 
-import Events from "../pages/events";
+import EventList from "../components/events/EventList";
 import { getFeaturedEvents } from "../helpers/api-until";
 
 const HomePage = (props) => {
   return (
     <div>
-      <Events />
+       <EventList items={props.events} />
     </div>
   );
 };
@@ -18,7 +18,7 @@ export const getStaticProps = async () => {
     props: {
       events: featuredEvents,
     },
-    revalidate: 30,
+    revalidate: 1800,
   };
 };
 export default HomePage;
