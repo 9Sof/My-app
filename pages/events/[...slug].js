@@ -22,7 +22,7 @@ const FilteredEventsPage = () => {
     return (
       <div className="center">
         <p>Invalid filter.</p>
-        <Button link="/events">Show All Events</Button>;
+        <Button link="/events">Show All Events</Button>
       </div>
     );
   }

@@ -1,32 +1,63 @@
 import React, { Fragment } from "react";
 import { useRouter } from "next/router";
-import { getEventById } from "../../dummy-data";
 
+import { getAllEvents, getEventById } from "../../helpers/api-until";
 import EventSummary from "../../components/event-detail/event-summary";
 import EventLigistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 
-const EventDetailPage = () => {
-  const router = useRouter();
-  const { eventId } = router.query;
-
-  const event = getEventById(eventId);
+const EventDetailPage = (props) => {
+  const { event } = props;
 
   if (!event) {
-      return <div>Event not found</div>
+    return (
+      <div className="center">
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   return (
     <div>
       <Fragment>
-          <EventSummary title={event.title}/>
-          <EventLigistics date={event.date} address={event.location} image={event.image} imageAlt={event.title}/>
-          <EventContent>
-              <p>{event.description}</p>
-          </EventContent>
+        <EventSummary title={event.title} />
+        <EventLigistics
+          date={event.date}
+          address={event.location}
+          image={event.image}
+          imageAlt={event.title}
+        />
+        <EventContent>
+          <p>{event.description}</p>
+        </EventContent>
       </Fragment>
     </div>
   );
+};
+
+export const getStaticProps = async (context) => {
+  const { eventId } = context.params;
+
+  const event = await getEventById(eventId);
+
+  return {
+    props: {
+      event,
+    },
+  };
+};
+
+export const getStaticPaths = async () => {
+  const events = await getAllEvents();
+
+  return {
+    paths: events.map((event) => ({
+      params: {
+        eventId: event.id,
+      },
+    })),
+    fallback: 'blocking',
+  };
 };
 
 export default EventDetailPage;
